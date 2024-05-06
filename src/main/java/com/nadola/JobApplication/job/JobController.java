@@ -9,7 +9,7 @@ import java.util.List;
 
 //httpStatus a class enumerating all possible HTTP responses; standardization of status codes and better control of responses, error handling and mapping
 @RestController
-@RequestMapping("/jobs") //sets the bas url
+@RequestMapping("/jobs") //sets the base url
 public class JobController {
 
 

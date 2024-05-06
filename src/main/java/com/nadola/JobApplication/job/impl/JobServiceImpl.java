@@ -73,7 +73,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public boolean updateJob(Long id, Job updatedJob) {
-
+        //Grab that particular object (job)
         Optional<Job> jobOptional = jobRepository.findById(id);
 //        for (
 //                Job job: jobs
