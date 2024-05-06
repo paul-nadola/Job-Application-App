@@ -33,7 +33,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public void createJob(Job job) {
         //automatically incrementing the ID so that it isnt set everytime and it doesnt take null values
-        job.setId(nextId++);
+//        job.setId(nextId++);
 //        jobs.add(job); //the array method
         jobRepository.save(job);
     }
@@ -86,6 +86,8 @@ public class JobServiceImpl implements JobService {
                 job.setMinSalary(updatedJob.getMinSalary());
                 job.setMaxSalary(updatedJob.getMaxSalary());
                 job.setLocation(updatedJob.getLocation());
+                //save the job
+                jobRepository.save(job);
                 return true;
             }
         return false;
