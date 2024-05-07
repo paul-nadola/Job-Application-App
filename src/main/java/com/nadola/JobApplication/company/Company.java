@@ -1,5 +1,6 @@
 package com.nadola.JobApplication.company;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nadola.JobApplication.job.Job;
 import jakarta.persistence.*;
 
@@ -14,7 +15,9 @@ public class Company {
     private String name;
     private String description;
 
-    @OneToMany //one company has many jobs
+    @JsonIgnore
+    @OneToMany (mappedBy="company") //specify that the relationship is maintained by the said column in the job class to get rid of the relationship table
+    //one company has many jobs
     private List<Job> jobs;
 
     //reviews mapping

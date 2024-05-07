@@ -49,5 +49,22 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.save(company);
     }
 
+    @Override
+    public boolean deleteCompanyById(Long id) {
+        //checking if company exists before deletion
+        if (companyRepository.existsById(id)) {
+            companyRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public Company getCompanyById(Long id) {
+        return companyRepository.findById(id).orElse(null);
+    }
+
 
 }
