@@ -43,7 +43,7 @@ public class CompanyController {
             return new ResponseEntity<>("Company Not Found", HttpStatus.NOT_FOUND);
         }
     }
-
+    //stopped at 5:10:43
     @GetMapping("/{id}")
     public ResponseEntity<Company> getCompany (@PathVariable Long id) {
         Company company = companyService.getCompanyById(id);

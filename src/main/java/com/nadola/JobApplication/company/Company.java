@@ -2,6 +2,7 @@ package com.nadola.JobApplication.company;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nadola.JobApplication.job.Job;
+import com.nadola.JobApplication.review.Review;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class Company {
     private List<Job> jobs;
 
     //reviews mapping
-    //@OneToMany
-    //private List<Reviews> reviews;
+    @OneToMany(mappedBy = "company")
+    private List<Review> reviews;
 
     //constructor for the JPA
     public Company() {
@@ -58,5 +59,13 @@ public class Company {
 
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
