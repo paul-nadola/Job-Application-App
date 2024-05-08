@@ -22,7 +22,18 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
-    public void addReview (@PathVariable Long companyId, @RequestBody Review review) {
+    public ResponseEntity<String> addReview (@PathVariable Long companyId, @RequestBody Review review) {
+        boolean isReviewSaved = reviewService.addReview(companyId, review);
+        if (isReviewSaved) {
+            return new ResponseEntity<>("Review Added Successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Review Not Added", HttpStatus.NOT_FOUND);
+        }
 
+    }
+    @GetMapping("/reviews/{reviewId}")
+        public ResponseEntity<Review> getReview (@PathVariable Long companyId,
+                                                 @PathVariable Long reviewId) {
+        return new ResponseEntity<>(reviewService.getReview(companyId, reviewId), HttpStatus.OK);
     }
 }

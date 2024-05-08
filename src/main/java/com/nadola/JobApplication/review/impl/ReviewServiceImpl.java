@@ -31,11 +31,26 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void addReview(Long companyId, Review review) {
+    public boolean addReview(Long companyId, Review review) {
         Company company = companyService.getCompanyById(companyId);
         if (company != null) {
             review.setCompany(company);
             reviewRepository.save(review);
+            return true;
+        } else {
+            return false;
         }
+
+    }
+
+    @Override
+    public Review getReview(Long companyId, Long reviewId) {
+        //get all reviews then iterate with companyId
+        List<Review> reviews = reviewRepository.findByCompanyId(companyId);
+        return reviews.stream()
+                .filter(review -> review.getId().equals(reviewId))
+                .findFirst()
+                .orElse(null)
+                ;
     }
 }
