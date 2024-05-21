@@ -1,10 +1,8 @@
 package com.nadola.ReviewMicroservice.review.impl;
 
-import com.nadola.JobApplication.company.Company;
-import com.nadola.JobApplication.company.CompanyService;
-import com.nadola.JobApplication.review.Review;
-import com.nadola.JobApplication.review.ReviewRepository;
-import com.nadola.JobApplication.review.ReviewService;
+import com.nadola.ReviewMicroservice.review.Review;
+import com.nadola.ReviewMicroservice.review.ReviewRepository;
+import com.nadola.ReviewMicroservice.review.ReviewService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +13,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    private final CompanyService companyService;
+//    Remove this service because microservices should be standalone and never depending on others
+//    private final CompanyService companyService;
 
 
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, CompanyService companyService) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
-        this.companyService = companyService;
+
     }
 
     @Override
@@ -32,9 +31,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public boolean addReview(Long companyId, Review review) {
-        Company company = companyService.getCompanyById(companyId);
-        if (company != null) {
-            review.setCompany(company);
+        if (companyId != null && review != null) {
+            review.setCompanyId(companyId);
             reviewRepository.save(review);
             return true;
         } else {
@@ -44,22 +42,19 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review getReview(Long companyId, Long reviewId) {
-        //get all reviews then iterate with companyId
-        List<Review> reviews = reviewRepository.findByCompanyId(companyId);
-        return reviews.stream()
-                .filter(review -> review.getId().equals(reviewId))
-                .findFirst()
-                .orElse(null)
-                ;
+    public Review getReview(Long reviewId) {
+        return reviewRepository.findById(reviewId).orElse(null);
     }
 
     @Override
-    public boolean updateReview(Long companyId, Long reviewId, Review updatedReview) {
-        if (companyService.getCompanyById(companyId) != null){
-            updatedReview.setCompany(companyService.getCompanyById(companyId));
-            updatedReview.setId(reviewId);
-            reviewRepository.save(updatedReview);
+    public boolean updateReview(Long reviewId, Review updatedReview) {
+        Review review = reviewRepository.findById(reviewId).orElse(null);
+        if (review != null){
+            review.setTitle(updatedReview.getTitle());
+            review.setDescription(updatedReview.getDescription());
+            review.setRating(updatedReview.getRating());
+            review.setCompanyId(updatedReview.getCompanyId());
+            reviewRepository.save(review);
             return true;
         } else {
             return false;
@@ -67,19 +62,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean deleteReview(Long companyId, Long reviewId) {
-        if (companyService.getCompanyById(companyId) != null && reviewRepository.existsById(reviewId)) {
-            //retrieve the review object first
-            Review review = reviewRepository.findById(reviewId).orElse(null);
-            //retrieve the company object
-            Company company = review.getCompany();
-
-            company.getReviews().remove(review);
-            review.setCompany(null);
-            //necessary because it is a bidirectional mapping
-            companyService.updateCompany(company, companyId);
-
-            reviewRepository.deleteById(reviewId);
+    public boolean deleteReview( Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElse(null);
+        if (review != null) {
+            reviewRepository.delete(review);
 
             return true;
 
