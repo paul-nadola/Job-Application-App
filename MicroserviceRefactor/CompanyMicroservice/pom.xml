@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nadola</groupId>
-	<artifactId>jobmicroservice</artifactId>
+	<artifactId>CompanyMicroservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>jobmicroservice</name>
-	<description>MIcroservice for job application</description>
+	<name>CompanyMicroservice</name>
+	<description>Company microservice for JobApplication</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -27,19 +27,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
